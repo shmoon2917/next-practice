@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { Product } from '..';
+import { Product } from './index';
 
 interface Props {
   loadedProduct: Product;
@@ -80,7 +80,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: pathsWithParams,
-    fallback: true, // boolean | 'blocking'
+    fallback: false, // boolean | 'blocking'
   };
 };
 
