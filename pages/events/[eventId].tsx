@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import React, { Fragment } from 'react';
@@ -31,6 +32,10 @@ const EventDetailPage: React.FC<Props> = ({ selectedEvent }) => {
 
   return (
     <Fragment>
+      <Head>
+        <title>{selectedEvent.title}</title>
+        <meta name='description' content={selectedEvent.description} />
+      </Head>
       <EventSummary title={selectedEvent.title} />
       <EventLogistics
         date={selectedEvent.date}

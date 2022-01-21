@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import React, { Fragment, useEffect, useState } from 'react';
@@ -54,13 +55,35 @@ const FilteredEventsPage: React.FC<Props> = (
     }
   }, [data]);
 
+  let pageHeadData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta name='description' content={`A list of filtered events`} />
+    </Head>
+  );
+
   if (!loadedEvents) {
-    return <p className='center'>Loading...</p>;
+    return (
+      <Fragment>
+        {pageHeadData}
+        <p className='center'>Loading...</p>
+      </Fragment>
+    );
   }
 
   const [year, month] = filterData as string[];
   const numYear = +year;
   const numMonth = +month;
+
+  pageHeadData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta
+        name='description'
+        content={`All events for ${numMonth}/${numYear}.`}
+      />
+    </Head>
+  );
 
   if (
     isNaN(numYear) ||
@@ -73,6 +96,7 @@ const FilteredEventsPage: React.FC<Props> = (
   ) {
     return (
       <Fragment>
+        {pageHeadData}
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values</p>
         </ErrorAlert>
@@ -95,6 +119,7 @@ const FilteredEventsPage: React.FC<Props> = (
   if (!filteredEvents || !filteredEvents?.length) {
     return (
       <Fragment>
+        {pageHeadData}
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
@@ -109,10 +134,11 @@ const FilteredEventsPage: React.FC<Props> = (
   const targetDate = new Date(numYear, numMonth - 1);
 
   return (
-    <div>
+    <Fragment>
+      {pageHeadData}
       <ResultsTitle date={targetDate} />
       <EventList items={filteredEvents} />
-    </div>
+    </Fragment>
   );
 };
 
