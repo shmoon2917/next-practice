@@ -1,15 +1,20 @@
 import { FormEvent, useRef, useState } from 'react';
 import classes from './new-comment.module.css';
+import { ObjectId } from 'mongodb';
 
 interface Props {
   onAddComment: (comment: Comment) => void;
 }
 
 export interface Comment {
+  _id?: string;
   email: string;
   name: string;
   text: string;
+  eventId?: string;
 }
+
+export type CommentForm = Omit<Comment, '_id'>;
 
 const NewComment: React.FC<Props> = ({ onAddComment }) => {
   const [isInvalid, setIsInvalid] = useState(false);
@@ -46,7 +51,7 @@ const NewComment: React.FC<Props> = ({ onAddComment }) => {
   }
 
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={sendCommentHandler}>
       <div className={classes.row}>
         <div className={classes.control}>
           <label htmlFor='email'>Your email</label>

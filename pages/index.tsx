@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import EventList from '../components/events/event-list';
 import { Event, getFeaturedEvents } from '../helpers/api-utils';
 import Head from 'next/head';
+import NewsletterRegistration from '../components/input/newsletter-registration';
 
 interface Props {
   events: Event[];
@@ -18,6 +19,7 @@ const HomePage: React.FC<Props> = ({ events }) => {
           content='Find a lot of great events that allow to you evolve'
         />
       </Head>
+      <NewsletterRegistration />
       <EventList items={events} />
     </div>
   );
